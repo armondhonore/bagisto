@@ -1,0 +1,28 @@
+application:
+  name: bagisto
+  pods:
+  - name: app
+    image: bagisto/bagisto:latest
+    path: /
+    servicePorts:
+    - 80
+    vars:
+      DB_HOST: mysql.pod
+      DB_DATABASE: bagisto
+      DB_USERNAME: bagisto
+      DB_PASSWORD: bagisto
+      APP_URL: "https://relaxed-weasel-bagisto.cloud.nexlayer.ai"
+      APP_KEY: "base64:BAGISTOkeyhere12345678XXXXXXXX="
+  - name: mysql
+    image: mysql:8.0
+    servicePorts:
+    - 3306
+    vars:
+      MYSQL_DATABASE: bagisto
+      MYSQL_USER: bagisto
+      MYSQL_PASSWORD: bagisto
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+    - name: bagisto-db
+      mountPath: /var/lib/mysql
+      size: 10Gi
