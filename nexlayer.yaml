@@ -2,26 +2,37 @@ application:
   name: bagisto
   pods:
   - name: app
-    image: mirror.gcr.io/bagisto/bagisto:latest
+    image: shinsenter/bagisto:latest
     path: /
     servicePorts:
     - 80
     vars:
-      DB_HOST: mysql.pod
+      APP_NAME: Bagisto
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: "base64:5d1LQkXBQTnRcxWxXz0rGIG9IG7tsb4EcCiDuP/rtg0="
+      APP_URL: "https://relaxed-weasel-bagisto.cloud.nexlayer.ai"
+      DB_CONNECTION: mysql
+      DB_HOST: bagisto-mysql.pod
+      DB_PORT: "3306"
       DB_DATABASE: bagisto
       DB_USERNAME: bagisto
-      DB_PASSWORD: bagisto
-      APP_URL: "https://relaxed-weasel-bagisto.cloud.nexlayer.ai"
-      APP_KEY: "base64:BAGISTOkeyhere12345678XXXXXXXX="
-  - name: mysql
-    image: mirror.gcr.io/library/mysql:8.0
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      SESSION_DRIVER: database
+      CACHE_STORE: file
+      QUEUE_CONNECTION: sync
+      LARAVEL_AUTO_MIGRATION: "1"
+      ADMIN_MAIL_ADDRESS: admin@example.com
+      ADMIN_MAIL_NAME: Admin
+  - name: bagisto-mysql
+    image: mysql:8.0
     servicePorts:
     - 3306
     vars:
       MYSQL_DATABASE: bagisto
       MYSQL_USER: bagisto
-      MYSQL_PASSWORD: bagisto
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
     - name: bagisto-db
       mountPath: /var/lib/mysql
