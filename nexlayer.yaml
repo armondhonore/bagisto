@@ -2,7 +2,7 @@ application:
   name: bagisto
   pods:
   - name: app
-    image: bagisto/bagisto:latest
+    image: mirror.gcr.io/bagisto/bagisto:latest
     path: /
     servicePorts:
     - 80
@@ -14,7 +14,7 @@ application:
       APP_URL: "https://relaxed-weasel-bagisto.cloud.nexlayer.ai"
       APP_KEY: "base64:BAGISTOkeyhere12345678XXXXXXXX="
   - name: mysql
-    image: mysql:8.0
+    image: mirror.gcr.io/library/mysql:8.0
     servicePorts:
     - 3306
     vars:
